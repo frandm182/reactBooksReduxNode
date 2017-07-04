@@ -1,26 +1,7 @@
 "use strict"
 import {createStore} from 'redux';
-
-const reducer = (state={books: []}, action) => {
-    switch(action.type) {
-        case 'POST_BOOK':
-            let books = state.books.concat(action.payload)
-            return {books: [...state.books,...action.payload]};
-        case 'DELETE_BOOK':
-            const currentBookToDelete = [...state.books]
-            const indexToDelete = currentBookToDelete.findIndex(book => book.id === action.payload.id)
-            return { books: [...currentBookToDelete.slice(0, indexToDelete), ...currentBookToDelete.slice(indexToDelete + 1)]};
-        case 'UPDATE_BOOK':
-            const currentBookToUpdate = [...state.books]
-            const indexToUpdate = currentBookToUpdate.findIndex(book => book.id === action.payload.id);
-            const newBookToUpdate = {...currentBookToUpdate[indexToUpdate], title: action.payload.title};
-            console.log(newBookToUpdate);
-            return { books: [...currentBookToUpdate.slice(0, indexToUpdate), newBookToUpdate, ...currentBookToUpdate.slice(indexToUpdate + 1)]};
-        
-    }
-    return state;
-}
-const store = createStore(reducer);
+import reducers from './reducers'
+const store = createStore(reducers);
 
 store.subscribe(() => {
     console.log("current state: ", store.getState());
