@@ -1,8 +1,7 @@
 'use strict'
-export default function(state={books: []}, action) {
+export function bookReducer(state={books: []}, action) {
     switch(action.type) {
         case 'POST_BOOK':
-            let books = state.books.concat(action.payload)
             return {books: [...state.books,...action.payload]};
         case 'DELETE_BOOK':
             const currentBookToDelete = [...state.books]

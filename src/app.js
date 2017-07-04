@@ -1,53 +1,42 @@
 "use strict"
-import {createStore} from 'redux';
-import reducers from './reducers'
-const store = createStore(reducers);
+import {applyMiddleware, createStore} from 'redux';
+import reducers from './reducers';
+import {addToCart} from './actions/cartActions';
+import {postBook, deleteBook, updateBook} from './actions/bookActions';
+import logger from 'redux-logger';
+const store = createStore(reducers, applyMiddleware(logger));
+// store.subscribe(() => {
+//     console.log("current state: ", store.getState());
+// });
 
-store.subscribe(() => {
-    console.log("current state: ", store.getState());
-});
+store.dispatch(postBook([{
+    id: 1,
+    title: 'First book',
+    description: 'Description of first book',
+    price: 33.98
+}]));
 
-store.dispatch({
-    type: 'POST_BOOK',
-    payload: [{
-        id: 1,
-        title: 'First book',
-        description: 'Description of first book',
-        price: 33.98
-    }]    
-})
+store.dispatch(postBook([{
+    id: 2,
+    title: 'Second book',
+    description: 'Description of Second book',
+    price: 13.50
+}]));
 
-store.dispatch({
-    type: 'POST_BOOK',
-    payload: [
-    {
-        id: 2,
-        title: 'Second book',
-        description: 'Description of Second book',
-        price: 13.50
-    }]    
-})
+store.dispatch(postBook([{
+    id: 3,
+    title: 'Third book',
+    description: 'Description of third book',
+    price: 15.30
+}]));    
 
-store.dispatch({
-    type: 'POST_BOOK',
-    payload: [{
-        id: 3,
-        title: 'Third book',
-        description: 'Description of third book',
-        price: 15.30
-    }]    
-})
+store.dispatch(deleteBook({id: 2}));
 
-store.dispatch({
-    type: 'DELETE_BOOK',
-    payload: { id: 2 }    
-})
+store.dispatch(updateBook({
+    id: 3,
+    title: 'Third book changed'
+}));
 
-store.dispatch({
-    type: 'UPDATE_BOOK',
-    payload: { 
-         id: 3,
-        title: 'Third book changed'
-     }    
-})
+store.dispatch(addToCart([{id: 3}]));
+store.dispatch(addToCart([{id: 2}]));
 
