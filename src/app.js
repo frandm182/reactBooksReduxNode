@@ -2,12 +2,18 @@
 import {applyMiddleware, createStore} from 'redux';
 import reducers from './reducers';
 import {addToCart} from './actions/cartActions';
+import BookList from './components/BookList';
 import {postBook, deleteBook, updateBook} from './actions/bookActions';
 import logger from 'redux-logger';
 const store = createStore(reducers, applyMiddleware(logger));
+import React from 'react';
+import {render} from 'react-dom';
+
 // store.subscribe(() => {
 //     console.log("current state: ", store.getState());
 // });
+
+render(<BookList/>,document.getElementById('app'));
 
 store.dispatch(postBook([{
     id: 1,
