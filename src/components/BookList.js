@@ -3,15 +3,27 @@ import React, {Component}  from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getBooks} from '../actions/bookActions';
+import {Grid, Col, Row, Button} from 'react-bootstrap';
 
 class BookList extends Component {
     componentDidMount() {
         this.props.getBooks();
     }
     render() {
-        const books = this.props.books.map(book => <div key={book.id}>{book.title}</div>);
+        const books = this.props.books.map(book => {
+            return(
+                <div>
+                    <div key={book.id}>{book.title}</div>
+                    <Button bsStyle='primary'>Boton</Button>
+                </div>             
+            )            
+        }); 
         return(
-            <div>{books}</div>
+            <Grid>
+                <Row style={{marginRight: '15px'}}>
+                    {books}
+                </Row>
+            </Grid>
         )
     }
 }
