@@ -21937,17 +21937,17 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function bookReducer() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { books: [{
-            id: 1,
+            _id: 1,
             title: 'First book',
             description: 'Description of first book',
             price: 33.98
         }, {
-            id: 2,
+            _id: 2,
             title: 'Second book',
             description: 'Description of Second book',
             price: 13.50
         }, {
-            id: 3,
+            _id: 3,
             title: 'Third book',
             description: 'Description of third book',
             price: 15.30
@@ -21962,13 +21962,13 @@ function bookReducer() {
         case 'DELETE_BOOK':
             var currentBookToDelete = [].concat(_toConsumableArray(state.books));
             var indexToDelete = currentBookToDelete.findIndex(function (book) {
-                return book.id === action.payload.id;
+                return book._id === action.payload._id;
             });
             return { books: [].concat(_toConsumableArray(currentBookToDelete.slice(0, indexToDelete)), _toConsumableArray(currentBookToDelete.slice(indexToDelete + 1))) };
         case 'UPDATE_BOOK':
             var currentBookToUpdate = [].concat(_toConsumableArray(state.books));
             var indexToUpdate = currentBookToUpdate.findIndex(function (book) {
-                return book.id === action.payload.id;
+                return book._id === action.payload._id;
             });
             var newBookToUpdate = _extends({}, currentBookToUpdate[indexToUpdate], { title: action.payload.title });
             return { books: [].concat(_toConsumableArray(currentBookToUpdate.slice(0, indexToUpdate)), [newBookToUpdate], _toConsumableArray(currentBookToUpdate.slice(indexToUpdate + 1))) };
@@ -22089,7 +22089,7 @@ var BookList = function (_Component) {
                     _reactBootstrap.Col,
                     { xs: 12, sm: 6, md: 4, key: book.id },
                     _react2.default.createElement(_BookItem2.default, {
-                        id: book.id,
+                        _id: book._id,
                         title: book.title,
                         description: book.description,
                         price: book.price })
@@ -43364,7 +43364,7 @@ var BookItem = function (_Component) {
         key: 'handleCart',
         value: function handleCart() {
             var book = [].concat(_toConsumableArray(this.props.cart), [{
-                id: this.props.id,
+                _id: this.props._id,
                 title: this.props.title,
                 description: this.props.description,
                 price: this.props.price
@@ -43596,7 +43596,7 @@ var Cart = function (_Component) {
             var carItemList = this.props.cart.map(function (element) {
                 return _react2.default.createElement(
                     _reactBootstrap.Panel,
-                    { key: element.id },
+                    { key: element._id },
                     _react2.default.createElement(
                         _reactBootstrap.Row,
                         null,
@@ -43607,6 +43607,59 @@ var Cart = function (_Component) {
                                 'h6',
                                 null,
                                 element.title
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                null,
+                                '   '
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactBootstrap.Col,
+                            { xs: 12, sm: 2 },
+                            _react2.default.createElement(
+                                'h6',
+                                null,
+                                'usd. ',
+                                element.price
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactBootstrap.Col,
+                            { xs: 12, sm: 2 },
+                            _react2.default.createElement(
+                                'h6',
+                                null,
+                                'qty. ',
+                                _react2.default.createElement(_reactBootstrap.Label, { bsStyle: 'success' })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactBootstrap.Col,
+                            { xs: 6, sm: 4 },
+                            _react2.default.createElement(
+                                _reactBootstrap.ButtonGroup,
+                                { style: { minWidth: '300px' } },
+                                _react2.default.createElement(
+                                    _reactBootstrap.Button,
+                                    { bsStyle: 'default', bsSize: 'small' },
+                                    '-'
+                                ),
+                                _react2.default.createElement(
+                                    _reactBootstrap.Button,
+                                    { bsStyle: 'default', bsSize: 'small' },
+                                    '+'
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '  '
+                                ),
+                                _react2.default.createElement(
+                                    _reactBootstrap.Button,
+                                    { bsStyle: 'danger', bsSize: 'small' },
+                                    'Delete'
+                                )
                             )
                         )
                     )
