@@ -21988,14 +21988,16 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.cartReducers = cartReducers;
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function cartReducers() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { cart: [] };
     var action = arguments[1];
 
     switch (action.type) {
         case 'ADD_TO_CART':
-            var toadd = state.cart.concat(action.payload);
-            return { cart: toadd };
+            return { cart: [].concat(_toConsumableArray(state), _toConsumableArray(action.payload)) };
     }
     return state;
 }
@@ -22053,6 +22055,10 @@ var _BookForm = __webpack_require__(486);
 
 var _BookForm2 = _interopRequireDefault(_BookForm);
 
+var _Cart = __webpack_require__(487);
+
+var _Cart2 = _interopRequireDefault(_Cart);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22092,6 +22098,11 @@ var BookList = function (_Component) {
             return _react2.default.createElement(
                 _reactBootstrap.Grid,
                 null,
+                _react2.default.createElement(
+                    _reactBootstrap.Row,
+                    null,
+                    _react2.default.createElement(_Cart2.default, null)
+                ),
                 _react2.default.createElement(
                     _reactBootstrap.Row,
                     { style: { marginRight: '15px' } },
@@ -43324,7 +43335,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = __webpack_require__(263);
 
+var _reactRedux = __webpack_require__(133);
+
+var _redux = __webpack_require__(62);
+
+var _cartActions = __webpack_require__(261);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -43342,6 +43361,17 @@ var BookItem = function (_Component) {
     }
 
     _createClass(BookItem, [{
+        key: 'handleCart',
+        value: function handleCart() {
+            var book = [].concat(_toConsumableArray(this.props.cart), [{
+                id: this.props.id,
+                title: this.props.title,
+                description: this.props.description,
+                price: this.props.price
+            }]);
+            this.props.addToCart(book);
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -43370,7 +43400,7 @@ var BookItem = function (_Component) {
                         ),
                         _react2.default.createElement(
                             _reactBootstrap.Button,
-                            { bsStyle: 'primary' },
+                            { onClick: this.handleCart.bind(this), bsStyle: 'primary' },
                             'Comprar'
                         )
                     )
@@ -43382,7 +43412,13 @@ var BookItem = function (_Component) {
     return BookItem;
 }(_react.Component);
 
-exports.default = BookItem;
+var mapStateToProps = function mapStateToProps(state) {
+    return { cart: state.cart.cart };
+};
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return (0, _redux.bindActionCreators)({ addToCart: _cartActions.addToCart }, dispatch);
+};
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(BookItem);
 
 /***/ }),
 /* 486 */
@@ -43441,7 +43477,6 @@ var BookForm = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            console.log('++++++++++++', this.props);
             return _react2.default.createElement(
                 _reactBootstrap.Well,
                 null,
@@ -43505,6 +43540,103 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(BookForm);
+
+/***/ }),
+/* 487 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(133);
+
+var _redux = __webpack_require__(62);
+
+var _reactBootstrap = __webpack_require__(263);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Cart = function (_Component) {
+    _inherits(Cart, _Component);
+
+    function Cart() {
+        _classCallCheck(this, Cart);
+
+        return _possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).apply(this, arguments));
+    }
+
+    _createClass(Cart, [{
+        key: 'render',
+        value: function render() {
+            if (this.props.cart[0]) {
+                return this.renderCart();
+            } else {
+                return this.renderEmpty();
+            }
+        }
+    }, {
+        key: 'renderCart',
+        value: function renderCart() {
+            var carItemList = this.props.cart.map(function (element) {
+                return _react2.default.createElement(
+                    _reactBootstrap.Panel,
+                    { key: element.id },
+                    _react2.default.createElement(
+                        _reactBootstrap.Row,
+                        null,
+                        _react2.default.createElement(
+                            _reactBootstrap.Col,
+                            { xs: 12, sm: 4 },
+                            _react2.default.createElement(
+                                'h6',
+                                null,
+                                element.title
+                            )
+                        )
+                    )
+                );
+            });
+            console.log(carItemList);
+            return _react2.default.createElement(
+                _reactBootstrap.Panel,
+                { header: 'Cart', bsStyle: 'primary' },
+                carItemList
+            );
+        }
+    }, {
+        key: 'renderEmpty',
+        value: function renderEmpty() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                'vacio'
+            );
+        }
+    }]);
+
+    return Cart;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return { cart: state.cart.cart };
+};
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Cart);
 
 /***/ })
 /******/ ]);

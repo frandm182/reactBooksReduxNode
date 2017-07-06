@@ -16,7 +16,6 @@ class BookForm extends Component {
         this.props.postBook(book);
     }
     render() {
-        console.log('++++++++++++',this.props);
         return(
             <Well>
                 <Panel>
@@ -48,6 +47,6 @@ class BookForm extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({postBook},dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({postBook},dispatch);
 
 export default connect(null, mapDispatchToProps)(BookForm);
