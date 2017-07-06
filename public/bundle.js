@@ -22045,6 +22045,14 @@ var _bookActions = __webpack_require__(145);
 
 var _reactBootstrap = __webpack_require__(263);
 
+var _BookItem = __webpack_require__(485);
+
+var _BookItem2 = _interopRequireDefault(_BookItem);
+
+var _BookForm = __webpack_require__(486);
+
+var _BookForm2 = _interopRequireDefault(_BookForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22072,18 +22080,13 @@ var BookList = function (_Component) {
         value: function render() {
             var books = this.props.books.map(function (book) {
                 return _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'div',
-                        { key: book.id },
-                        book.title
-                    ),
-                    _react2.default.createElement(
-                        _reactBootstrap.Button,
-                        { bsStyle: 'primary' },
-                        'Boton'
-                    )
+                    _reactBootstrap.Col,
+                    { xs: 12, sm: 6, md: 4, key: book.id },
+                    _react2.default.createElement(_BookItem2.default, {
+                        id: book.id,
+                        title: book.title,
+                        description: book.description,
+                        price: book.price })
                 );
             });
             return _react2.default.createElement(
@@ -22092,6 +22095,11 @@ var BookList = function (_Component) {
                 _react2.default.createElement(
                     _reactBootstrap.Row,
                     { style: { marginRight: '15px' } },
+                    _react2.default.createElement(
+                        _reactBootstrap.Col,
+                        { xs: 12, sm: 6 },
+                        _react2.default.createElement(_BookForm2.default, null)
+                    ),
                     books
                 )
             );
@@ -43296,6 +43304,184 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+/***/ }),
+/* 485 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = __webpack_require__(263);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BookItem = function (_Component) {
+    _inherits(BookItem, _Component);
+
+    function BookItem() {
+        _classCallCheck(this, BookItem);
+
+        return _possibleConstructorReturn(this, (BookItem.__proto__ || Object.getPrototypeOf(BookItem)).apply(this, arguments));
+    }
+
+    _createClass(BookItem, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _reactBootstrap.Well,
+                null,
+                _react2.default.createElement(
+                    _reactBootstrap.Row,
+                    null,
+                    _react2.default.createElement(
+                        _reactBootstrap.Col,
+                        { xs: 12 },
+                        _react2.default.createElement(
+                            'h6',
+                            null,
+                            this.props.title
+                        ),
+                        _react2.default.createElement(
+                            'p',
+                            null,
+                            this.props.description
+                        ),
+                        _react2.default.createElement(
+                            'h6',
+                            null,
+                            this.props.price
+                        ),
+                        _react2.default.createElement(
+                            _reactBootstrap.Button,
+                            { bsStyle: 'primary' },
+                            'Comprar'
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return BookItem;
+}(_react.Component);
+
+exports.default = BookItem;
+
+/***/ }),
+/* 486 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = __webpack_require__(263);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BookForm = function (_Component) {
+    _inherits(BookForm, _Component);
+
+    function BookForm() {
+        _classCallCheck(this, BookForm);
+
+        return _possibleConstructorReturn(this, (BookForm.__proto__ || Object.getPrototypeOf(BookForm)).apply(this, arguments));
+    }
+
+    _createClass(BookForm, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _reactBootstrap.Well,
+                null,
+                _react2.default.createElement(
+                    _reactBootstrap.Panel,
+                    null,
+                    _react2.default.createElement(
+                        _reactBootstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactBootstrap.ControlLabel,
+                            null,
+                            'Title'
+                        ),
+                        _react2.default.createElement(_reactBootstrap.FormControl, {
+                            type: 'text',
+                            placeholder: 'Title',
+                            ref: 'title' })
+                    ),
+                    _react2.default.createElement(
+                        _reactBootstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactBootstrap.ControlLabel,
+                            null,
+                            'Description'
+                        ),
+                        _react2.default.createElement(_reactBootstrap.FormControl, {
+                            type: 'text',
+                            placeholder: 'Description',
+                            ref: 'description' })
+                    ),
+                    _react2.default.createElement(
+                        _reactBootstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactBootstrap.ControlLabel,
+                            null,
+                            'Price'
+                        ),
+                        _react2.default.createElement(_reactBootstrap.FormControl, {
+                            type: 'text',
+                            placeholder: 'Price',
+                            ref: 'price' })
+                    ),
+                    _react2.default.createElement(
+                        _reactBootstrap.Button,
+                        { bsStyle: 'primary' },
+                        'Add'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return BookForm;
+}(_react.Component);
+
+exports.default = BookForm;
 
 /***/ })
 /******/ ]);
