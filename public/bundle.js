@@ -43403,6 +43403,14 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = __webpack_require__(263);
 
+var _reactRedux = __webpack_require__(133);
+
+var _redux = __webpack_require__(62);
+
+var _reactDom = __webpack_require__(21);
+
+var _bookActions = __webpack_require__(145);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43421,8 +43429,19 @@ var BookForm = function (_Component) {
     }
 
     _createClass(BookForm, [{
+        key: 'handleSubmit',
+        value: function handleSubmit() {
+            var book = [{
+                title: (0, _reactDom.findDOMNode)(this.refs.title).value,
+                description: (0, _reactDom.findDOMNode)(this.refs.description).value,
+                price: (0, _reactDom.findDOMNode)(this.refs.price).value
+            }];
+            this.props.postBook(book);
+        }
+    }, {
         key: 'render',
         value: function render() {
+            console.log('++++++++++++', this.props);
             return _react2.default.createElement(
                 _reactBootstrap.Well,
                 null,
@@ -43470,7 +43489,7 @@ var BookForm = function (_Component) {
                     ),
                     _react2.default.createElement(
                         _reactBootstrap.Button,
-                        { bsStyle: 'primary' },
+                        { onClick: this.handleSubmit.bind(this), bsStyle: 'primary' },
                         'Add'
                     )
                 )
@@ -43481,7 +43500,11 @@ var BookForm = function (_Component) {
     return BookForm;
 }(_react.Component);
 
-exports.default = BookForm;
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return (0, _redux.bindActionCreators)({ postBook: _bookActions.postBook }, dispatch);
+};
+
+exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(BookForm);
 
 /***/ })
 /******/ ]);
