@@ -16,8 +16,8 @@ class BookList extends Component {
     render() {
         const books = this.props.books.map(book => {
             return(
-                <Col xs={12} sm={6} md={4} key={book.id}>
-                    <BookItem 
+                <Col xs={12} sm={6} md={4} key={book._id}>
+                    <BookItem                         
                         _id={book._id}
                         title={book.title}
                         description={book.description}
@@ -27,31 +27,21 @@ class BookList extends Component {
         }); 
         return(
             <Grid>
-                <Row>
+                <Row >
                     <Cart />
                 </Row>
                 <Row style={{marginRight: '15px'}}>
                     <Col xs={12} sm={6}>
                         <BookForm />                        
                     </Col>
-                    {books}
-                    
+                    {books}                    
                 </Row>
             </Grid>
         )
     }
 }
 
-function mapStateToProps(state){
-    return {
-        books: state.books.books
-    }
-};
-function mapDispathToProps(dispatch) {
-    return bindActionCreators({
-        getBooks
-    }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispathToProps)(BookList);
+const mapStateToProps = state => { return {books: state.books.books}}
+const mapDispatchToProps = dispatch => bindActionCreators({getBooks},dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(BookList);
 

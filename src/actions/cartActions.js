@@ -7,3 +7,19 @@ export function addToCart(book) {
         payload: book
     }
 }
+
+//ADD TO CART
+export function updateCart(_id,unit) {
+    return { 
+        type: 'UPDATE_CART',
+        payload: {_id,unit}
+    }
+}
+
+//ADD TO CART
+export function deleteCartItem(cart) {
+    return { 
+        type: 'DELETE_CART_ITEM',
+        payload: cart
+    }
+}
