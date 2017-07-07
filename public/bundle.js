@@ -22000,9 +22000,22 @@ function cartReducers() {
 
     switch (action.type) {
         case 'ADD_TO_CART':
-            return { cart: [].concat(_toConsumableArray(state), _toConsumableArray(action.payload)) };
+            return _extends({}, state, {
+                cart: action.payload,
+                totalAmount: totals(action.payload).amount,
+                totalQuantity: totals(action.payload).quantity
+            });
         case 'DELETE_CART_ITEM':
-            return { cart: [].concat(_toConsumableArray(state), _toConsumableArray(action.payload)) };
+            var currentBookToDelete = [].concat(_toConsumableArray(state.cart));
+            var indexToDelete = currentBookToDelete.findIndex(function (cart) {
+                return cart._id === action.payload;
+            });
+            var cartAfterDelete = [].concat(_toConsumableArray(currentBookToDelete.slice(0, indexToDelete)), _toConsumableArray(currentBookToDelete.slice(indexToDelete + 1)));
+            return _extends({}, state, {
+                cart: cartAfterDelete,
+                totalAmount: totals(cartAfterDelete).amount,
+                totalQuantity: totals(cartAfterDelete).quantity
+            });
         case 'UPDATE_CART':
             var currentBookToUpdate = [].concat(_toConsumableArray(state.cart));
             var indexToUpdate = currentBookToUpdate.findIndex(function (book) {
@@ -22010,10 +22023,30 @@ function cartReducers() {
             });
             var newBookToUpdate = _extends({}, currentBookToUpdate[indexToUpdate], { quantity: currentBookToUpdate[indexToUpdate].quantity + action.payload.unit });
             var cartUpdate = [].concat(_toConsumableArray(currentBookToUpdate.slice(0, indexToUpdate)), [newBookToUpdate], _toConsumableArray(currentBookToUpdate.slice(indexToUpdate + 1)));
-            return _extends({}, state, { cart: cartUpdate });
+            return _extends({}, state, {
+                cart: cartUpdate,
+                totalAmount: totals(cartUpdate).amount,
+                totalQuantity: totals(cartUpdate).quantity
+            });
     }
     return state;
 }
+
+var totals = exports.totals = function totals(cartBooks) {
+    var totalPrice = cartBooks.map(function (book) {
+        return book.price * book.quantity;
+    }).reduce(function (a, b) {
+        return a + b;
+    }, 0);
+
+    var totalQty = cartBooks.map(function (book) {
+        return book.quantity;
+    }).reduce(function (a, b) {
+        return a + b;
+    }, 0);
+
+    return { amount: totalPrice.toFixed(2), quantity: totalQty };
+};
 
 /***/ }),
 /* 261 */
@@ -22046,10 +22079,10 @@ function updateCart(_id, unit) {
 }
 
 //ADD TO CART
-function deleteCartItem(cart) {
+function deleteCartItem(_id) {
     return {
         type: 'DELETE_CART_ITEM',
-        payload: cart
+        payload: _id
     };
 }
 
@@ -43609,8 +43642,6 @@ var _cartActions = __webpack_require__(261);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -43623,18 +43654,28 @@ var Cart = function (_Component) {
     function Cart() {
         _classCallCheck(this, Cart);
 
-        return _possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).call(this));
+
+        _this.state = {
+            showModal: false
+        };
+        return _this;
     }
 
     _createClass(Cart, [{
+        key: 'open',
+        value: function open() {
+            this.setState({ showModal: true });
+        }
+    }, {
+        key: 'close',
+        value: function close() {
+            this.setState({ showModal: false });
+        }
+    }, {
         key: 'onDelete',
         value: function onDelete(_id) {
-            var currentBookToDelete = this.props.cart;
-            var indexToDelete = currentBookToDelete.findIndex(function (cart) {
-                return cart._id === _id;
-            });
-            var cartAfterDelete = [].concat(_toConsumableArray(currentBookToDelete.slice(0, indexToDelete)), _toConsumableArray(currentBookToDelete.slice(indexToDelete + 1)));
-            this.props.deleteCartItem(cartAfterDelete);
+            this.props.deleteCartItem(_id);
         }
     }, {
         key: 'onIncrement',
@@ -43739,21 +43780,76 @@ var Cart = function (_Component) {
                     )
                 );
             });
-            console.log(carItemList);
             return _react2.default.createElement(
                 _reactBootstrap.Panel,
                 { header: 'Cart', bsStyle: 'primary' },
-                carItemList
+                carItemList,
+                _react2.default.createElement(
+                    _reactBootstrap.Row,
+                    null,
+                    _react2.default.createElement(
+                        _reactBootstrap.Col,
+                        { xs: 12 },
+                        _react2.default.createElement(
+                            'h6',
+                            null,
+                            'Total amount: ',
+                            this.props.totalAmount
+                        ),
+                        _react2.default.createElement(
+                            _reactBootstrap.Button,
+                            { onClick: this.open.bind(this), bsStyle: 'success', bsSize: 'small' },
+                            'Checkout'
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactBootstrap.Modal,
+                    { show: this.state.showModal, onHide: this.close.bind(this) },
+                    _react2.default.createElement(
+                        _reactBootstrap.Modal.Header,
+                        { closeButton: true },
+                        _react2.default.createElement(
+                            _reactBootstrap.Modal.Title,
+                            null,
+                            'Modal heading'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactBootstrap.Modal.Body,
+                        null,
+                        _react2.default.createElement(
+                            'h1',
+                            null,
+                            'Test'
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactBootstrap.Modal.Footer,
+                        null,
+                        _react2.default.createElement(
+                            _reactBootstrap.Col,
+                            { xs: 6 },
+                            _react2.default.createElement(
+                                'h6',
+                                null,
+                                'Total amount $: ',
+                                this.props.totalAmount
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactBootstrap.Button,
+                            { onClick: this.close.bind(this) },
+                            'Close'
+                        )
+                    )
+                )
             );
         }
     }, {
         key: 'renderEmpty',
         value: function renderEmpty() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                'vacio'
-            );
+            return _react2.default.createElement('div', null);
         }
     }]);
 
@@ -43761,7 +43857,10 @@ var Cart = function (_Component) {
 }(_react.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-    return { cart: state.cart.cart };
+    return {
+        cart: state.cart.cart,
+        totalAmount: state.cart.totalAmount
+    };
 };
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return (0, _redux.bindActionCreators)({ deleteCartItem: _cartActions.deleteCartItem, updateCart: _cartActions.updateCart }, dispatch);

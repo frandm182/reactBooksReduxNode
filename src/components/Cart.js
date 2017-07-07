@@ -2,16 +2,26 @@
 import React, {Component}  from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Panel, Col, Row, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
+import {Modal, Panel, Col, Row, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
 import {deleteCartItem,updateCart} from '../actions/cartActions';
 
 class Cart extends Component {
-    
+    constructor() {
+        super();
+        this.state = {
+            showModal: false
+        };
+    }
+
+    open() {
+        this.setState({showModal:true});
+    }
+
+    close() {
+        this.setState({showModal:false});
+    }
     onDelete(_id) {
-        const currentBookToDelete = this.props.cart;
-        const indexToDelete = currentBookToDelete.findIndex(cart => cart._id === _id)
-        let cartAfterDelete = [...currentBookToDelete.slice(0, indexToDelete), ...currentBookToDelete.slice(indexToDelete + 1)];
-        this.props.deleteCartItem(cartAfterDelete); 
+        this.props.deleteCartItem(_id); 
     }
 
     onIncrement(_id) {
@@ -54,24 +64,50 @@ class Cart extends Component {
                                 <span>  </span>
                                 <Button onClick={this.onDelete.bind(this,element._id)} bsStyle='danger' bsSize='small'>Delete</Button>
                             </ButtonGroup>
-                        </Col>
-                    </Row>
+                        </Col>                        
+                    </Row>                    
                 </Panel>
             )
         });
-        console.log(carItemList);
         return (
-            <Panel header='Cart' bsStyle='primary'>
+            <Panel header='Cart' bsStyle='primary'>           
                 {carItemList}
+                <Row>
+                    <Col xs={12}>
+                        <h6>Total amount: {this.props.totalAmount}</h6>
+                        <Button onClick={this.open.bind(this)} bsStyle="success" bsSize="small">
+                            Checkout
+                        </Button>
+                    </Col>
+                </Row>
+                <Modal show={this.state.showModal} onHide={this.close.bind(this)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <h1>Test</h1>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Col xs={6}>
+                            <h6>Total amount $: {this.props.totalAmount}</h6>
+                        </Col>
+                        <Button onClick={this.close.bind(this)}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
             </Panel>
         );        
     }
 
     renderEmpty() {
-        return(<div>vacio</div>);
+        return(<div></div>);
     }
 }
 
-const mapStateToProps = state => {return {cart: state.cart.cart}}
+const mapStateToProps = state => {
+    return {
+        cart: state.cart.cart,
+        totalAmount: state.cart.totalAmount
+    }
+}
 const mapDispatchToProps = dispatch => bindActionCreators({deleteCartItem,updateCart},dispatch);
 export default connect(mapStateToProps,mapDispatchToProps)(Cart);

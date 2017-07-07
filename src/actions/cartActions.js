@@ -17,9 +17,9 @@ export function updateCart(_id,unit) {
 }
 
 //ADD TO CART
-export function deleteCartItem(cart) {
+export function deleteCartItem(_id) {
     return { 
         type: 'DELETE_CART_ITEM',
-        payload: cart
+        payload: _id
     }
 }
