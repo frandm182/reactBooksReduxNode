@@ -22,7 +22,7 @@ export function bookReducer(state={books: [{
             return {books: [...state.books,...action.payload]};
         case 'DELETE_BOOK':
             const currentBookToDelete = [...state.books]
-            const indexToDelete = currentBookToDelete.findIndex(book => book._id === action.payload._id)
+            const indexToDelete = currentBookToDelete.findIndex(book => book._id == action.payload)
             return { books: [...currentBookToDelete.slice(0, indexToDelete), ...currentBookToDelete.slice(indexToDelete + 1)]};
         case 'UPDATE_BOOK':
             const currentBookToUpdate = [...state.books]
