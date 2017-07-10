@@ -19,7 +19,8 @@ class Menu extends Component {
           <Nav pullRight>
             <NavItem eventKey={1} href="/admin">Admin</NavItem>
             <NavItem eventKey={2} href="/cart">Your Cart 
-              <Badge className='badge'> 1</Badge>
+            {(this.props.cartItemNumber > 0) ? (<Badge className='badge'>{this.props.cartItemNumber}</Badge>) : ''  }
+              
             </NavItem>
           </Nav>
         </Navbar.Collapse>

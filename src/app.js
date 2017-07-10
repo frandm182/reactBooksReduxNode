@@ -6,19 +6,16 @@ import logger from 'redux-logger';
 import {Provider} from 'react-redux';
 import {HashRouter} from 'react-router-dom';
 
+import Main from './Main';
 import reducers from './reducers';
 
-import Main from './Main';
-import Menu from './components/Menu';
-import Footer from './components/Footer';
+
 
 const store = createStore(reducers, applyMiddleware(logger));
 
 const App = () => (
   <div>
-    <Menu />
     <Main />
-    <Footer />
   </div>
 )            
 

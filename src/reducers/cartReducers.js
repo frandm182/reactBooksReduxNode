@@ -1,6 +1,6 @@
 'use strict'
 //CART REDUCERS
-export function cartReducers(state={cart: []}, action) {
+export function cartReducers(state={cart: [], totalAmout: 0, totalQuantity: 0}, action) {
     switch(action.type) {
         case 'ADD_TO_CART':
             return {...state,

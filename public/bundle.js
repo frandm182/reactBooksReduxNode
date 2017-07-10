@@ -19844,21 +19844,13 @@ var _reactRedux = __webpack_require__(57);
 
 var _reactRouterDom = __webpack_require__(511);
 
-var _reducers = __webpack_require__(365);
-
-var _reducers2 = _interopRequireDefault(_reducers);
-
 var _Main = __webpack_require__(506);
 
 var _Main2 = _interopRequireDefault(_Main);
 
-var _Menu = __webpack_require__(507);
+var _reducers = __webpack_require__(365);
 
-var _Menu2 = _interopRequireDefault(_Menu);
-
-var _Footer = __webpack_require__(508);
-
-var _Footer2 = _interopRequireDefault(_Footer);
+var _reducers2 = _interopRequireDefault(_reducers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19868,9 +19860,7 @@ var App = function App() {
     return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_Menu2.default, null),
-        _react2.default.createElement(_Main2.default, null),
-        _react2.default.createElement(_Footer2.default, null)
+        _react2.default.createElement(_Main2.default, null)
     );
 };
 
@@ -34807,7 +34797,7 @@ exports.cartReducers = cartReducers;
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function cartReducers() {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { cart: [] };
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { cart: [], totalAmout: 0, totalQuantity: 0 };
     var action = arguments[1];
 
     switch (action.type) {
@@ -45846,12 +45836,18 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(511);
+
+var _reactRedux = __webpack_require__(57);
 
 var _BookList = __webpack_require__(368);
 
@@ -45865,24 +45861,60 @@ var _BookForm = __webpack_require__(223);
 
 var _BookForm2 = _interopRequireDefault(_BookForm);
 
-var _reactRouterDom = __webpack_require__(511);
+var _Menu = __webpack_require__(507);
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _Footer = __webpack_require__(508);
+
+var _Footer2 = _interopRequireDefault(_Footer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Main = function Main() {
-  return _react2.default.createElement(
-    'main',
-    null,
-    _react2.default.createElement(
-      _reactRouterDom.Switch,
-      null,
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _BookList2.default }),
-      _react2.default.createElement(_reactRouterDom.Route, { path: '/cart', component: _Cart2.default }),
-      _react2.default.createElement(_reactRouterDom.Route, { path: '/admin', component: _BookForm2.default })
-    )
-  );
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Main = function (_Component) {
+    _inherits(Main, _Component);
+
+    function Main() {
+        _classCallCheck(this, Main);
+
+        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+    }
+
+    _createClass(Main, [{
+        key: 'render',
+        value: function render() {
+            console.log(this.props);
+            return _react2.default.createElement(
+                'main',
+                null,
+                _react2.default.createElement(_Menu2.default, { cartItemNumber: this.props.totalQty }),
+                _react2.default.createElement(
+                    _reactRouterDom.Switch,
+                    null,
+                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _BookList2.default }),
+                    _react2.default.createElement(_reactRouterDom.Route, { path: '/cart', component: _Cart2.default }),
+                    _react2.default.createElement(_reactRouterDom.Route, { path: '/admin', component: _BookForm2.default })
+                ),
+                _react2.default.createElement(_Footer2.default, null)
+            );
+        }
+    }]);
+
+    return Main;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        totalQty: state.cart.totalQuantity
+    };
 };
-exports.default = Main;
+exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(Main);
 
 /***/ }),
 /* 507 */
@@ -45969,11 +46001,11 @@ var Menu = function (_Component) {
               _reactBootstrap.NavItem,
               { eventKey: 2, href: '/cart' },
               'Your Cart',
-              _react2.default.createElement(
+              this.props.cartItemNumber > 0 ? _react2.default.createElement(
                 _reactBootstrap.Badge,
                 { className: 'badge' },
-                ' 1'
-              )
+                this.props.cartItemNumber
+              ) : ''
             )
           )
         )
