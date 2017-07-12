@@ -16,9 +16,9 @@ class Main extends Component {
             <main>
                 <Menu cartItemNumber={this.props.totalQty}/>
                 <Switch>
-                <Route exact path='/' component={BookList}/>
-                <Route path='/cart' component={Cart}/>
-                <Route path='/admin' component={BookForm}/>
+                    <Route exact path='/' component={BookList}/>
+                    <Route path='/cart' component={Cart}/>
+                    <Route path='/admin' component={BookForm}/>
                 </Switch>
                 <Footer />
             </main>

@@ -1,23 +1,8 @@
 'use strict'
-export function bookReducer(state={books: [{
-    _id: 1,
-    title: 'First book',
-    description: 'Description of first book',
-    price: 33.98
-},{
-    _id: 2,
-    title: 'Second book',
-    description: 'Description of Second book',
-    price: 13.50
-},{
-    _id: 3,
-    title: 'Third book',
-    description: 'Description of third book',
-    price: 15.30
-}]}, action) {
+export function bookReducer(state={books: []}, action) {
     switch(action.type) {
         case 'GET_BOOKS':
-            return {...state,books: [...state.books]};
+            return {...state,books: [...action.payload]};
         case 'POST_BOOK':
             return {books: [...state.books,...action.payload]};
         case 'DELETE_BOOK':

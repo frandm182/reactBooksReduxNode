@@ -14,7 +14,7 @@ class BookList extends Component {
         this.props.getBooks();
     }
     render() {
-        const books = this.props.books.map(book => {
+        const books = this.props.books.map((book) => {
             return(
                 <Col xs={12} sm={6} md={4} key={book._id}>
                     <BookItem                         
